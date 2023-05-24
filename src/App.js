@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 import PageTitle from './components/PageTitle';
 import AppHeader from './components/AppHeader';
 // getting style from app.module.scss
@@ -7,13 +8,20 @@ import AppContent from './components/AppContent';
 
 function App() {
   return (
-    <div className="container">
-      <PageTitle>TODO LIST</PageTitle>
-      <div className={styles.app__wrapper}>
-        <AppHeader />
-        <AppContent />
+    <>
+      <div className="container">
+        <PageTitle>TODO LIST</PageTitle>
+        <div className={styles.app__wrapper}>
+          <AppHeader />
+          <AppContent />
+        </div>
       </div>
-    </div>
+      <Toaster
+        toastOptions={{
+          style: { fontSize: '1.5rem' },
+        }}
+      />
+    </>
   );
 }
 
