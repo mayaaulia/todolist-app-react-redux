@@ -10,7 +10,16 @@ function AppHeader() {
 
   return (
     <div className={styles.appHeader}>
-      <Button type="button">Add Task</Button>
+      {/* Add Task Button */}
+      <Button
+        type="button"
+        variant="primary"
+        // show up modal
+        onClick={() => setModalOpen(true)}
+      >
+        Add Task
+      </Button>
+      {/* Status Filter */}
       <SelectButton id="status">
         <option value="all">All</option>
         <option value="incomplete">Incomplete</option>
