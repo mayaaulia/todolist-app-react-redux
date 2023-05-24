@@ -3,11 +3,25 @@ import React from 'react';
 import { format } from 'date-fns';
 // icons
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 // getting style from todoItem.module.scss
 import styles from '../styles/modules/todoItem.module.scss';
 import { getClasses } from '../utils/getClasses';
+import { deleteTodo } from '../slices/todoSlice';
 
 function TodoItem({ todo }) {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(todo.id));
+    // message success delete
+    toast.success('Todo Deleted Successfully');
+  };
+
+  const handleUpdate = () => {
+    console.log('update');
+  };
   return (
     <div className={styles.item}>
       <div className={styles.todoDetails}>
@@ -25,14 +39,26 @@ function TodoItem({ todo }) {
             {/* format date and time todo into time, day/month/year */}
             {format(new Date(todo.time), 'p, dd/mm/yyyy')}
           </p>
-          <div className={styles.todoActions}>
-            <div className={styles.icon}>
-              <MdDelete />
-            </div>
-            <div className={styles.icon}>
-              <MdEdit />
-            </div>
-          </div>
+        </div>
+      </div>
+      <div className={styles.todoActions}>
+        <div
+          className={styles.icon}
+          onClick={() => handleDelete()}
+          onKeyDown={() => handleDelete()}
+          tabIndex={0}
+          role="button"
+        >
+          <MdDelete />
+        </div>
+        <div
+          className={styles.icon}
+          onClick={() => handleUpdate()}
+          onKeyDown={() => handleUpdate()}
+          tabIndex={0}
+          role="button"
+        >
+          <MdEdit />
         </div>
       </div>
     </div>

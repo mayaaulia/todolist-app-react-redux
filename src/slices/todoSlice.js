@@ -27,6 +27,7 @@ export const todoSlice = createSlice({
       if (todoList) {
         // make into array
         const todoListArr = JSON.parse(todoList);
+        // console.log(todoListArr);
         // push action into array
         todoListArr.push({
           ...action.payload,
@@ -44,8 +45,24 @@ export const todoSlice = createSlice({
         );
       }
     },
+    deleteTodo: (state, action) => {
+      // getting todolist from local
+      const todoList = window.localStorage.getItem('todoList');
+      if (todoList) {
+        // make into array
+        const todoListArr = JSON.parse(todoList);
+        todoListArr.forEach((todo, index) => {
+          if (todo.id === action.payload) {
+            // At index, remove 1 items
+            todoListArr.splice(index, 1);
+          }
+        });
+        window.localStorage.setItem('todoList', JSON.stringify(todoListArr));
+        state.todoList = todoListArr;
+      }
+    },
   },
 });
 
-export const { addTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo } = todoSlice.actions;
 export default todoSlice.reducer;

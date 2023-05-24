@@ -13,4 +13,15 @@ function PageTitle({ children, ...rest }) {
   );
 }
 
+function PageSubTitle({ children, ...rest }) {
+  return (
+    <div>
+      <p className={style.subTitle} {...rest}>
+        {children}
+      </p>
+    </div>
+  );
+}
+
 export default PageTitle;
+export { PageSubTitle };

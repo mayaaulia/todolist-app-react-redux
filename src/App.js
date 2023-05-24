@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
-import PageTitle from './components/PageTitle';
+import PageTitle, { PageSubTitle } from './components/PageTitle';
 import AppHeader from './components/AppHeader';
 // getting style from app.module.scss
 import styles from './styles/modules/app.module.scss';
@@ -11,6 +11,7 @@ function App() {
     <>
       <div className="container">
         <PageTitle>TODO LIST</PageTitle>
+        <PageSubTitle>What's the plan for today?</PageSubTitle>
         <div className={styles.app__wrapper}>
           <AppHeader />
           <AppContent />
