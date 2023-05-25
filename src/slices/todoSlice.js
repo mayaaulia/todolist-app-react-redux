@@ -13,6 +13,7 @@ const getInitialTodo = () => {
 };
 
 const initialValue = {
+  filterStatus: 'all',
   todoList: getInitialTodo(),
 };
 
@@ -66,7 +67,7 @@ export const todoSlice = createSlice({
       const todoList = window.localStorage.getItem('todoList');
       if (todoList) {
         const todoListArr = JSON.parse(todoList);
-        todoListArr.forEach((todo, index) => {
+        todoListArr.forEach((todo) => {
           // condition if todo id match with id todo that choosed
           if (todo.id === action.payload.id) {
             // change todo value with update value
@@ -79,8 +80,12 @@ export const todoSlice = createSlice({
         state.todoList = [...todoListArr];
       }
     },
+    updateFilterStatus: (state, action) => {
+      state.filterStatus = action.payload;
+    },
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo, updateFilterStatus } =
+  todoSlice.actions;
 export default todoSlice.reducer;
