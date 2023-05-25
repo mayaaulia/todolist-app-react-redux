@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // getting react icons
 import { MdOutlineClose } from 'react-icons/md';
 // getting unicque id
@@ -8,29 +8,58 @@ import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import styles from '../styles/modules/modal.module.scss';
 import Button from './Button';
-import { addTodo } from '../slices/todoSlice';
+import { addTodo, updateTodo } from '../slices/todoSlice';
 
-function TodoModal({ modalOpen, setModalOpen }) {
+function TodoModal({ type, modalOpen, setModalOpen, todo }) {
   // state for title todo
   const [title, setTitle] = useState('');
   // state for status
   const [status, setStatus] = useState('incomplete');
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (type === 'update' && todo) {
+      setTitle(todo.title);
+      setStatus(todo.status);
+    } else {
+      setTitle('');
+      setStatus('incomplete');
+    }
+    // running whenever any changing value
+  }, [type, todo, modalOpen]);
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log({ title, status });
+    // error message
+    if (title === '') {
+      toast.error('Please enter a title');
+      return;
+    }
     if (title && status) {
-      dispatch(
-        addTodo({
-          id: uuid(),
-          title,
-          status,
-          time: new Date().toLocaleString(),
-        })
-      );
-      //  succes message
-      toast.success('Task added successfully');
+      if (type === 'add') {
+        dispatch(
+          addTodo({
+            id: uuid(),
+            title,
+            status,
+            time: new Date().toLocaleString(),
+          })
+        );
+        //  succes message
+        toast.success('Task added successfully');
+        setModalOpen(false);
+      }
+      if (type === 'update') {
+        // console.log('update');
+        // check if any new update
+        if (todo.title !== title || todo.status !== status) {
+          dispatch(updateTodo({ ...todo, title, status }));
+          toast.success('Task Updated successfully');
+        } else {
+          toast.error('No changes made');
+          return;
+        }
+      }
       setModalOpen(false);
     } else {
       //  error message
@@ -57,7 +86,9 @@ function TodoModal({ modalOpen, setModalOpen }) {
 
             {/* Form Add Todo */}
             <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
-              <h1 className={styles.formTitle}> Add Task</h1>
+              <h1 className={styles.formTitle}>
+                {type === 'add' ? 'Add' : 'Update'} TODO
+              </h1>
               <label htmlFor="title">
                 Title
                 <input
@@ -81,7 +112,7 @@ function TodoModal({ modalOpen, setModalOpen }) {
               <div className={styles.buttonContainer}>
                 {/* Add Button */}
                 <Button type="submit" variant="primary">
-                  Add Task
+                  {type === 'update' ? 'Update' : 'Add'} Task
                 </Button>
                 {/* Cancel Button */}
                 <Button
