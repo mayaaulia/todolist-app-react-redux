@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // format date
 import { format } from 'date-fns';
 // icons
@@ -8,13 +8,25 @@ import toast from 'react-hot-toast';
 // getting style from todoItem.module.scss
 import styles from '../styles/modules/todoItem.module.scss';
 import { getClasses } from '../utils/getClasses';
-import { deleteTodo } from '../slices/todoSlice';
+import { deleteTodo, updateTodo } from '../slices/todoSlice';
 import TodoModal from './TodoModal';
+import CheckButton from './CheckButton';
 
 function TodoItem({ todo }) {
   const dispatch = useDispatch();
   // state for update modal
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  // state for check box
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    // change status to complete if checked
+    if (todo.status === 'complete') {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, [todo.status]);
 
   const handleDelete = () => {
     dispatch(deleteTodo(todo.id));
@@ -26,10 +38,19 @@ function TodoItem({ todo }) {
     // console.log('update');
     setUpdateModalOpen(true);
   };
+
+  const handleCheck = () => {
+    setChecked(!checked);
+    dispatch(
+      // change into status to complete if checked
+      updateTodo({ ...todo, status: checked ? 'incomplete' : 'complete' })
+    );
+  };
   return (
     <>
       <div className={styles.item}>
         <div className={styles.todoDetails}>
+          <CheckButton checked={checked} handleCheck={handleCheck} />
           <div className={styles.text}>
             <p
               className={getClasses([
