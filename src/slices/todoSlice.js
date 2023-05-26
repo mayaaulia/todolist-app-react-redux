@@ -93,7 +93,7 @@ export const todoSlice = createSlice({
         // console.log(`from reset ${todoList}`);
         // make into array
         const todoListArr = JSON.parse(todoList);
-        // // console.log(todoListArr);
+        // console.log(todoListArr);
         todoListArr.splice(0, todoListArr.length);
         // set todolist and change into string
         window.localStorage.setItem('todoList', JSON.stringify(todoListArr));
