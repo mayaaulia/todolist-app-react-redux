@@ -7,15 +7,15 @@ import TodoModal from './TodoModal';
 import { updateFilterStatus } from '../slices/todoSlice';
 
 function AppHeader() {
+  const dispatch = useDispatch();
   // state for modal make modal hidden
   const [modalOpen, setModalOpen] = useState(false);
   // get initial value from todoslice
   const filterStatus = useSelector((state) => state.todo.filterStatus);
-  const dispach = useDispatch();
 
   const updateFilter = (e) => {
     console.log('updating select');
-    dispach(updateFilterStatus(e.target.value));
+    dispatch(updateFilterStatus(e.target.value));
   };
 
   return (

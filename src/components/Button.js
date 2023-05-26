@@ -6,6 +6,7 @@ import { getClasses } from '../utils/getClasses';
 const buttonTypes = {
   primary: 'primary',
   secondary: 'secondary',
+  warning: 'warning',
 };
 
 function Button({ type, variant = 'primary', children, ...rest }) {

@@ -13,6 +13,7 @@ import TodoModal from './TodoModal';
 import CheckButton from './CheckButton';
 
 function TodoItem({ todo }) {
+  // console.log(todo);
   const dispatch = useDispatch();
   // state for update modal
   const [updateModalOpen, setUpdateModalOpen] = useState(false);

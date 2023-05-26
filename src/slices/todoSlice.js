@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 
 const getInitialTodo = () => {
   // getting todo list from local
@@ -83,9 +84,31 @@ export const todoSlice = createSlice({
     updateFilterStatus: (state, action) => {
       state.filterStatus = action.payload;
     },
+    resetTodo: (state) => {
+      console.log('test');
+      // getting todo list from local
+      const todoList = window.localStorage.getItem('todoList');
+      // console.log(todoList);
+      if (todoList) {
+        // console.log(`from reset ${todoList}`);
+        // make into array
+        const todoListArr = JSON.parse(todoList);
+        // // console.log(todoListArr);
+        todoListArr.splice(0, todoListArr.length);
+        // set todolist and change into string
+        window.localStorage.setItem('todoList', JSON.stringify(todoListArr));
+        state.todoList = [...todoListArr];
+        toast.success('Todo Reset Successfully');
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo, updateFilterStatus } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  deleteTodo,
+  updateTodo,
+  updateFilterStatus,
+  resetTodo,
+} = todoSlice.actions;
 export default todoSlice.reducer;
